@@ -1,0 +1,200 @@
+let procesando = false; // El escudo protector
+
+function talar() {
+    const boton = event.target;
+    
+    // SI YA ESTÁ PROCESANDO O EL BOTÓN ESTÁ BLOQUEADO, NO HACE NADA
+    if (procesando) return; 
+
+    procesando = true; // Activamos el escudo
+    boton.disabled = true;
+    boton.style.cursor = "not-allowed";
+    boton.innerText = "⏳ TRABAJANDO...";
+
+    // Efecto visual de golpe
+    document.querySelector('.card').style.transform = "scale(0.9) translateY(5px)";
+
+    setTimeout(() => {
+        coins += 50;
+        tickets += 1;
+        
+        // Actualizamos la pantalla
+        document.getElementById('coins').innerText = coins;
+        document.getElementById('tickets').innerText = tickets;
+        
+        // Liberamos el escudo
+        procesando = false; 
+        boton.disabled = false;
+        boton.style.cursor = "pointer";
+        boton.innerText = "¡TALAR RECOMPENSA! 🪵";
+        document.querySelector('.card').style.transform = "scale(1) translateY(0)";
+        
+        console.log("Sistema Anti-Trampa: Click procesado correctamente.");
+    }, 1000); // 1 segundo de espera obligatoria entre talas
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PokeStill Industries | Sitio Segundo</title>
+    <style>
+        :root {
+            --primary: #ce0000;
+            --accent: #f1c40f;
+            --dark: #121212;
+            --card-bg: rgba(30, 30, 30, 0.95);
+        }
+
+        body {
+            background-color: var(--dark);
+            background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            text-align: center;
+            transition: 0.5s;
+        }
+
+        /* MODOS ESPECIALES */
+        body.modo-hacker { filter: sepia(1) hue-rotate(90deg) brightness(1.2); }
+        body.modo-infierno { filter: saturate(2) contrast(1.2) hue-rotate(-20deg); }
+        body.modo-retro { image-rendering: pixelated; font-family: 'Courier New', monospace; }
+
+        .header {
+            background: linear-gradient(180deg, var(--primary), #8b0000);
+            padding: 40px;
+            border-bottom: 5px solid var(--accent);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+        }
+
+        .container { max-width: 900px; margin: auto; padding: 20px; }
+
+        .stat-box {
+            display: inline-block;
+            background: var(--card-bg);
+            padding: 20px;
+            margin: 10px;
+            border-radius: 15px;
+            border: 2px solid var(--primary);
+            min-width: 150px;
+            box-shadow: 0 0 15px rgba(206, 0, 0, 0.3);
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 20px;
+            margin: 20px 0;
+            border: 1px solid #444;
+            transition: 0.3s;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            text-transform: uppercase;
+        }
+
+        .btn:hover:not(:disabled) {
+            background: var(--accent);
+            color: black;
+            transform: scale(1.05);
+        }
+
+        .btn:disabled { background: #555; cursor: not-allowed; }
+
+        .tienda-grid { display: flex; justify-content: space-around; flex-wrap: wrap; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>🚂 POKESTILL INDUSTRIES 🍎</h1>
+    <p>SITIO SEGUNDO - CONTROL DEL ADMIN ROMEO</p>
+</div>
+
+<div class="container">
+    <div class="stats-bar">
+        <div class="stat-box">💰 Coins: <span id="coins">0</span></div>
+        <div class="stat-box">🎫 Tickets: <span id="tickets">0</span></div>
+    </div>
+
+    <div class="card">
+        <h2>🪓 ZONA DE TALA (ANTI-TRAMPA)</h2>
+        <p>Solo los trabajadores reales hacen crecer la Locomotora.</p>
+        <button id="btnTalar" class="btn" onclick="talar()">¡Talar Madera! 🪵</button>
+    </div>
+
+    <div class="card">
+        <h2>💎 TIENDA DE ADDONS</h2>
+        <div class="tienda-grid">
+            <div class="stat-box">
+                <h3>🔨 Ban Hammer</h3>
+                <p>500 Coins</p>
+                <button class="btn" onclick="comprar('Ban Hammer', 500)">Comprar</button>
+            </div>
+            <div class="stat-box">
+                <h3>🔫 AK-47 Juguete</h3>
+                <p>1000 Coins</p>
+                <button class="btn" onclick="comprar('AK-47', 1000)">Comprar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="position: fixed; bottom: 10px; right: 10px; background: rgba(0,0,0,0.8); padding: 10px; border-radius: 10px;">
+    <button onclick="cambiarModo('normal')">Normal</button>
+    <button onclick="cambiarModo('hacker')">Hacker</button>
+    <button onclick="cambiarModo('infierno')">🔥</button>
+</div>
+
+<script>
+    let coins = 0;
+    let tickets = 0;
+    let bloqueado = false;
+
+    function talar() {
+        if (bloqueado) return;
+        
+        bloqueado = true;
+        const btn = document.getElementById('btnTalar');
+        btn.disabled = true;
+        btn.innerText = "⏳ TRABAJANDO...";
+
+        setTimeout(() => {
+            coins += 50;
+            tickets += 1;
+            document.getElementById('coins').innerText = coins;
+            document.getElementById('tickets').innerText = tickets;
+            
+            bloqueado = false;
+            btn.disabled = false;
+            btn.innerText = "¡Talar Madera! 🪵";
+        }, 1000); // 1 segundo de espera obligatoria
+    }
+
+    function comprar(item, precio) {
+        if (coins >= precio) {
+            coins -= precio;
+            document.getElementById('coins').innerText = coins;
+            alert("¡ÉXITO! Has obtenido " + item + " para tu colección. 🍎🔥");
+        } else {
+            alert("¡RECURSOS INSUFICIENTES! Sigue talando, Admin.");
+        }
+    }
+
+    function cambiarModo(m) {
+        document.body.className = (m === 'normal') ? '' : 'modo-' + m;
+    }
+</script>
+
+</body>
+</html>
