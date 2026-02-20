@@ -198,3 +198,24 @@ function talar() {
 
 </body>
 </html>
+// FUNCIÓN DE MODO CREATIVO (SOLO PARA EL ADMIN)
+function activarCreativo() {
+    console.log("ACCESO CONCEDIDO: MODO CREATIVO ACTIVADO 🔧");
+    
+    // Monedas Infinitas
+    coins = 999999;
+    tickets = 999999;
+    
+    // Actualizar pantalla
+    document.getElementById('coins').innerText = coins + " (MAX)";
+    document.getElementById('tickets').innerText = tickets + " (MAX)";
+    
+    // Cambiar precios de la tienda a GRATIS
+    let botonesTienda = document.querySelectorAll('.tienda-grid button');
+    botonesTienda.forEach(btn => {
+        btn.innerText = "¡GRATIS!";
+        btn.style.background = "#2ecc71"; // Verde Esmeralda
+    });
+
+    alert("🚨 MODO CREATIVO ACTIVADO: Todo es gratis, Jefe Romeo.");
+}
